@@ -1,0 +1,16 @@
+INFO [2022-03-14 19:47:21] $x
+INFO [2022-03-14 19:47:21] list(DA = rownames(DAExprData), GEO = rownames(geoExprData), 
+INFO [2022-03-14 19:47:21]     TCGA = rownames(TCGAExprData))
+INFO [2022-03-14 19:47:21] 
+INFO [2022-03-14 19:47:21] $filename
+INFO [2022-03-14 19:47:21] NULL
+INFO [2022-03-14 19:47:21] 
+INFO [2022-03-14 19:47:21] $lty
+INFO [2022-03-14 19:47:21] [1] "blank"
+INFO [2022-03-14 19:47:21] 
+INFO [2022-03-14 19:47:21] $fill
+INFO [2022-03-14 19:47:21] c("pink1", "skyblue", "mediumorchid")
+INFO [2022-03-14 19:47:21] 
+INFO [2022-03-14 19:47:21] $main
+INFO [2022-03-14 19:47:21] [1] "Genes in common between the three datasets"
+INFO [2022-03-14 19:47:21] 
