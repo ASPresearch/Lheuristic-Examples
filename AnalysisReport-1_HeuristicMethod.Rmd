@@ -4,22 +4,13 @@ author: "Berta Miró, Francesc Carmona,  Carmona, Francesc, Diego Arango, Alex S
 institute: "Departament of Genetics Microbiology and Statistics, Universitat de Barcelona<br> CIBBIM-Nanomedicine. Biomedical Research in Digestive Tumors, (VHIR), Barcelona<br> Statistic and Bioinformatics Unit. Vall d'Hebron Research Institute.  (VHIR). Barcelona"
 date: "`r Sys.Date()`"
 
-# output:
-#   html_document:
-#     toc: true
-#     toc_depth: 3
-#     number_sections: true
-#     code_folding: show
-#     theme: cosmo
 output:
- prettydoc::html_pretty:
-    toc: true
-    theme: cayman
-    highlight: github
-    number_sections: true
- pdf_document:
-    toc: true
-    toc_depth: 2
+   html_document:
+     toc: true
+     toc_depth: 3
+     number_sections: true
+     code_folding: show
+     theme: cosmo
 bibliography: mybibfile.bib
 link-citations: yes
 
