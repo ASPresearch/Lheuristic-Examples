@@ -1,6 +1,6 @@
 ---
 title: "Selection of L-shaped genes using a heuristic algorithm"
-author: "Berta Miró, Francesc Carmona,  Carmona, Francesc, Diego Arango, Alex Sánchez Pla"
+author: "Berta Miró, Francesc Carmona,  Diego Arango and Alex Sánchez Pla"
 institute: "Departament of Genetics Microbiology and Statistics, Universitat de Barcelona<br> CIBBIM-Nanomedicine. Biomedical Research in Digestive Tumors, (VHIR), Barcelona<br> Statistic and Bioinformatics Unit. Vall d'Hebron Research Institute.  (VHIR). Barcelona"
 date: "`r Sys.Date()`"
 
