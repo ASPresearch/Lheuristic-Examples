@@ -32,7 +32,7 @@ concordance=FALSE, echo=TRUE, cache=TRUE, warning=FALSE, error=FALSE, message=FA
 
 # Introduction
 
-This document contains examples / applications on how to select L-shaped genes from two data matrices, an expression and a methylation matrix, matched by rows (genes) and columns(samplea), using the algorithms implemented by the authors in the `Lheuristic` package and described in section 3, *Scoring Scatterplots*.
+This document contains examples / applications on how to select L-shaped genes from two data matrices, an expression and a methylation matrix, matched by rows (genes) and columns(samples), using the algorithms implemented by the authors in the `Lheuristic` package and described in section 3, *Scoring Scatterplots*.
 
 The idea is to "keep-it-simple" so that it can serve as the basis for other applications such as a program that optimizes the parameters or for a graphical user interface based in Shiny.
 
@@ -48,7 +48,7 @@ Essentially what a user may want to do uysing this package is:
 
     -   Set parameter values
 
-        -   For data use (all genes or only those that pass certain filters (corr \< 0))
+        -   For data use (all genes or only those that pass certain filters ($\mbox{corr}< 0$))
         -   For L-shape selection method: Here one may want to select the method and its parameters (each method has a different set of parameters)
 
 -   Data processing (For each method and set of parameters ...)
@@ -65,15 +65,14 @@ Essentially what a user may want to do uysing this package is:
 options(digits=4)
 workingDir <- getwd()
 dadesDir <-  file.path(workingDir, "dades")
-# codeDir <-  file.path(workingDir, "Rcode") - ARA ESTA TOT AL PAQUET
 resultsDir <- file.path(workingDir, "results")
 ```
 
 ```{r loadpackages}
-# install.packages("evaluate")
-# source(file.path(codeDir, "gridFunctions.R"))
-if (!(require(Lheuristic))) devtoools::install_github("Lheuristic")
+if (!(require(Lheuristic))) devtools::install_github("aspresearch/Lheuristic")
 if (!(require(VennDiagram))) install.packages("VennDiagram")
+if (!(require(printr))) install.packages("printr")
+
 ```
 
 # The data for the analysis
@@ -90,7 +89,6 @@ There are several datasets available for analysis obtained from distinct sources
 A summary of each datasets follows below:
 
 ```{r readDataDA}
-require(printr)
 load(file="dades/DataMatrices-DA.Rda")
 cat("DA Microarray data : ", dim(DAExprData), "\n")
 cat("DA Methylation data: ", dim(DAMetilData), "\n")
@@ -133,13 +131,15 @@ grid.draw(myVenn4)
 
 The data for these analyses must have a common structure: **Each pair of matrices (Expression-Methylation) must have the same rome and column names**, that is both datasets must contain information for the same genes and same samples at their corresponding positions.
 
-This can be checked using a simple function such as *checkData* available in the package.
+This can be checked using a simple function such as `checkPairing` available in the package.
 
-```{r checkData}
+```{r checkPairing}
 library(Lheuristic)
 (try(if(!checkPairing(DAExprData, DAMetilData)) stop("Row names and/or column names do not match")))
 (try(if(!checkPairing(geoExprData, geoMetilData)) stop("Row names and/or column names do not match")))
 ```
+
+# Expression-Methylation scatterplots
 
 When one is studying the relation between methylation and expression for a bunch of genes it may be convenient to (be able) to plot the scatterplots depicting the relation between these variables.
 Function *plotGenesMat* allows to draw such plots.
@@ -181,7 +181,7 @@ par(opt)
 
 Looking at the figure above shows that, although the genes may behave similarly between datasets, methods for selecting GRM must be robust and adaptable to, for example, distinct sample sizes.
 
-## Gene ZBTB18
+## A specific gene Gene ZBTB18
 
 Figure \@ref(fig:plotZBTB18) shows how the scatterplot looks like for a gene that has been described as regulated by methylation @Bazzocco2021.
 
@@ -203,7 +203,7 @@ abline( lm(DAExprData["ZBTB18",]~ DAMetilData["ZBTB18", ]))
 par(opt)
 ```
 
-## Artificial TRUE and FALSE L-shaped genes
+# Separating TRUE and FALSE L-shaped genes
 
 ## Genes extracted from DA dataset
 
@@ -276,6 +276,10 @@ plotGenesMat (mets=GEOfalseLMet[1:4,], expres=GEOfalseLExpr[1:4,],
                fileName=NULL, plotGrid = TRUE)
 par(opt)
 ```
+
+## Simulating L-shaped scatterplots
+
+An algorithm to simulate L-shaped genes has been developed in order to test for the capability of the scoring system to discriminate between TRUE or FALSE L-Shape
 
 # Scoring scatterplots
 
@@ -354,9 +358,7 @@ Their use is described in the package help but they are illustrated here to clar
 
 -   Function *plotGenesMat* is not a computing function but it is worth to enumerate it here because it complements the other functions by allowing to visualize the data that have generated a certain score from a given scatterplot.
 
-## Examples
-
-## Scoring the TRUE/FALSE DA dataset
+# Examples (1): Scoring the TRUE/FALSE DA dataset
 
 The first example below show that genes that have been marked as TRUE or FALSE L in the DA dataset **may** score different.
 
@@ -420,7 +422,7 @@ table(scoresFalse[,1])
 table(scoresFalse[,2])
 ```
 
-# Putting all together: Selecting L-shaped genes
+# Examples (1):  Putting all together to select L-shaped genes
 
 The goal of developing all these functions is being able to select L-shaped genes from a paired dataset (expression-methylation) in a way that is as flexible and as rapid and as good as possible.
 
@@ -428,14 +430,13 @@ Essentially the process of selecting L-shape genes consists of three steps:
 
 1.  Select datasets (a pair of row-column matched matrices, one for expression and one for methylation).
 
-2.  Set parameters:
+2. Set parameters:
 
 2.1 Grid definition
 
 2.2 Binary Scoring
 
-2.3.
-Numerical Scoring
+2.3.Numerical Scoring
 
 4.  Score the selected data and return classificaation (scores and group) and plots for each gene.
 
@@ -446,7 +447,7 @@ As it has been shown in the examples above the functions may be applied sequenti
 We have selected a different set of parameters for DA and GEO datasets than for TCGA data, because as the sample size increases it seems reasonable (necessary) to be mor permisive.
 Strictly speaking only required percentages have been changed, not weights.
 
-## Parameters for DA and GEO datasets (small samples)
+### Parameters for DA and GEO datasets (small samples)
 
 ```{r}
 require(kableExtra)
@@ -474,7 +475,7 @@ showTable(theWeightMifL)
 showTable(theWeightMifNonL)
 ```
 
-## Parameters for TCGA datasets (big samples)
+### Parameters for TCGA datasets (big samples)
 
 ```{r setParameters4TCGA}
 reqPercentages4TCGA <- matrix (c(4, 20, 5, 1, 40, 20, 0, 1, 4), nrow=3, byrow=TRUE)
@@ -553,6 +554,8 @@ head(scoresTCGA)
 table(scoresTCGA[,1])
 ```
 
+## Results visualization
+
 We may use the scores obtained to sort genes from `most" to`least" L-shaped.
 
 ```{r sortGenes}
@@ -611,3 +614,4 @@ grid.draw(myVenn4)
 Or it can be applied to a pre-filtered subset, such as genes showing a significantly negative correlation.
 
 # References
+
